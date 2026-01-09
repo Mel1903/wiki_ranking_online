@@ -1,5 +1,10 @@
+const API_BASE =
+    location.hostname === 'localhost'
+        ? 'http://localhost:3000'
+        : 'https://wiki-ranking-backend-production.up.railway.app';
+
 async function loadRanking() {
-    const res = await fetch('http://localhost:3000/api/ranking/top10');
+    const res = await fetch(`${API_BASE}/api/ranking/top10`);
     const data = await res.json();
 
     const container = document.getElementById('rankingList');
