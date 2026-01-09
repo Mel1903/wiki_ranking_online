@@ -1,16 +1,14 @@
 const mysql = require('mysql2/promise');
 
-const pool = mysql.createPool
-({
-    host: 'caboose.proxy.rlwy.net',
-    port: '52059',
-    user: 'root',
-    password: 'mhFbiDxiaHXtHpWQBNzzOmpivwcldDEx',
-    database: 'wiki_ranking',
-    ssl: 
-    {
-        rejectUnauthorized: false
-    }
+const pool = mysql.createPool({
+    host: process.env.MYSQLHOST,
+    port: process.env.MYSQLPORT,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
 module.exports = pool;
