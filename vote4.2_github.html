@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vote</title>
+        <link rel="stylesheet" href="style4_github.css">
+    </head>
+    <body>
+
+        <h2 class="subtitle">Choose...</h2>
+
+        <div class="voteContainer">
+
+            <div class="personCard">
+                <img id="img1" class="personImg" alt="Person 1">
+                <h3 id="name1"></h3>
+                <p id="desc1"></p>
+
+                <table class="infoTable">
+                    <tr>
+                        <td>Country:</td>
+                        <td id="country1"></td>
+                    </tr>
+                    <tr>
+                        <td>Birthday:</td>
+                        <td id="birth1"></td>
+                    </tr>
+                    <tr>
+                        <td>Deathday:</td>
+                        <td id="death1"></td>
+                    </tr>
+                    <tr>
+                        <td>Gender:</td>
+                        <td id="gender1"></td>
+                    </tr>
+                </table>
+
+                <a id="article1" class="articleLink" target="_blank">Wikipedia Article</a>
+
+                <button class="vote-button" id="vote1">VOTE</button>
+            </div>
+
+
+            <div class="personCard">
+                <img id="img2" class="personImg" alt="Person 2">
+                <h3 id="name2"></h3>
+                <p id="desc2"></p>
+
+                <table class="infoTable">
+                    <tr>
+                        <td>Country:</td>
+                        <td id="country2"></td>
+                    </tr>
+                    <tr>
+                        <td>Birthday:</td>
+                        <td id="birth2"></td>
+                    </tr>
+                    <tr>
+                        <td>Deathday:</td>
+                        <td id="death2"></td>
+                    </tr>
+                    <tr>
+                        <td>Gender:</td>
+                        <td id="gender2"></td>
+                    </tr>
+                </table>
+
+                <a id="article2" class="articleLink" target="_blank">Wikipedia Article</a>
+
+                <button class="vote-button" id="vote2">VOTE</button>
+            </div>
+
+
+        </div>
+
+        <button class="back-button" id="backBtn">Back</button>
+
+        <script>
+            document.getElementById('vote1').disabled = true;
+            document.getElementById('vote2').disabled = true;
+
+
+            let currentMatchupId = null;
+            let person1Id = null;
+            let person2Id = null;
+
+            // 1️⃣ Neue Personen laden
+            async function loadMatchup() {
+                const res = await fetch('http://localhost:3000/api/matchup');
+                const data = await res.json();
+
+                currentMatchupId = data.matchup_id;
+                person1Id = data.person1_id;
+                person2Id = data.person2_id;
+
+                //Inhalte setzen
+                document.getElementById('name1').textContent = data.person1_name;
+                document.getElementById('img1').src = data.person1_image;
+                document.getElementById('desc1').textContent = data.person1_description;
+                document.getElementById('country1').textContent = data.person1_country ?? '-';
+                document.getElementById('birth1').textContent = data.person1_birth ?? '-';
+                document.getElementById('death1').textContent = data.person1_death ?? '-';
+                document.getElementById('gender1').textContent = data.person1_gender ?? '-';
+                document.getElementById('article1').href = data.person1_article;
+
+                document.getElementById('name2').textContent = data.person2_name;
+                document.getElementById('img2').src = data.person2_image;
+                document.getElementById('desc2').textContent = data.person2_description;
+                document.getElementById('country2').textContent = data.person2_country ?? '-';
+                document.getElementById('birth2').textContent = data.person2_birth ?? '-';
+                document.getElementById('death2').textContent = data.person2_death ?? '-';
+                document.getElementById('gender2').textContent = data.person2_gender ?? '-';
+                document.getElementById('article2').href = data.person2_article;
+
+
+                //jetzt erst aktivieren
+                document.getElementById('vote1').disabled = false;
+                document.getElementById('vote2').disabled = false;
+            }
+
+            // 2️⃣ Vote speichern
+            async function sendVote(winnerPersonId) {
+                const sessionId = localStorage.getItem('session_id');
+
+                await fetch('http://localhost:3000/api/vote', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        matchup_id: currentMatchupId,
+                        winner_person_id: winnerPersonId,
+                        session_id: sessionId
+                    })
+                });
+            }
+
+            // 3️⃣ Vote-Buttons
+            document.getElementById('vote1').addEventListener('click', async () => {
+                await sendVote(person1Id);
+                await loadMatchup();
+            });
+
+            document.getElementById('vote2').addEventListener('click', async () => {
+                await sendVote(person2Id);
+                await loadMatchup();
+            });
+
+            // 4️⃣ Back-Button
+            document.getElementById('backBtn').addEventListener('click', () => {
+                localStorage.removeItem('session_id');
+                window.location.href = 'index4.2_github.html';
+            });
+
+            // 5️⃣ Erstes Matchup laden
+            loadMatchup();
+
+        </script>
+
+    </body>
+</html>
+

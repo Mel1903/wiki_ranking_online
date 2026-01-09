@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link rel="stylesheet" href="style4_github.css">
+</head>
+<body>
+
+<section class="main-container">
+
+    <h1 class="main-title">USER</h1>
+
+    <form class="user-form" id="userForm">
+
+        <!-- Birthyear -->
+        <select id="birthyear" required>
+            <option value="">Birthyear</option>
+        </select>
+
+        <!-- Gender -->
+        <select id="gender" required>
+            <option value="">Gender</option>
+            <option value="female">Weiblich</option>
+            <option value="male">Männlich</option>
+            <option value="nonbinary">Nichtbinär</option>
+            <option value="gender_fluid">Gender-Fluid</option>
+        </select>
+
+        <!-- Country -->
+        <input
+            type="text"
+            id="country"
+            placeholder="Country"
+            required
+        >
+
+        <div class="button-container">
+            <button type="submit" class="back-button">Next</button>
+        </div>
+
+    </form>
+
+</section>
+
+<script>
+    // Birthyear 1950–2025
+    const birthyearSelect = document.getElementById('birthyear');
+    for (let year = 2025; year >= 1950; year--) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        birthyearSelect.appendChild(option);
+    }
+
+    // Formular absenden
+    document.getElementById('userForm').addEventListener('submit', (e) => 
+    {
+        e.preventDefault();
+
+        const userData = {
+            birth_year: document.getElementById('birthyear').value,
+            gender: document.getElementById('gender').value,
+            country: document.getElementById('country').value,
+            created_at: new Date().toISOString()
+        };
+
+        fetch('http://localhost:3000/api/session', 
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        })
+        .then(res => res.json())
+        .then(data => 
+        {
+            localStorage.setItem('session_id', data.session_id);
+            //weiter zum Voting
+            window.location.href = 'vote4.2_github.html';
+        });
+    });
+</script>
+
+</body>
+</html>
+

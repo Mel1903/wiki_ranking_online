@@ -1,0 +1,59 @@
+<!DOCTYPE html> 
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <title>Wiki Ranking</title>
+        <link rel="stylesheet" href="style4_github.css">
+    </head>
+    <body>
+        <section class="main-container">
+
+            <h1 class="main-title">Wiki Ranking</h1>
+
+            <p class="main-description">
+                Compare two persons and see which one users prefer.
+            </p>
+
+            <a href="user4.2_github.html">
+                <button class="vote-button">VOTE</button>
+            </a>
+
+            <div class="ranking-box">
+                <h2>Top 10 Ranking</h2>
+                <ul id="rankingList">
+                    <!-- Ranking wird per JS geladen-->
+                </ul>
+            </div>
+
+        </section>
+        
+        <script>
+            // Neue Session starten → alte Userdaten löschen
+            localStorage.removeItem('userData');
+        </script>
+
+        <script>
+            async function loadRanking() {
+                try {
+                    const res = await fetch('http://localhost:3000/api/ranking/top10');
+                    const data = await res.json();
+
+                    const list = document.getElementById('rankingList');
+                    list.innerHTML = '';
+
+                    data.forEach((person, index) => {
+                        const li = document.createElement('li');
+                        li.textContent = `${index + 1}. ${person.name} (${person.rating})`;
+                        list.appendChild(li);
+                    });
+                } catch (err) {
+                    console.error('Ranking konnte nicht geladen werden', err);
+                }
+            }
+
+            loadRanking();
+        </script>
+
+
+    </body>
+</html>
