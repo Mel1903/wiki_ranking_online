@@ -49,7 +49,7 @@
             ? 'http://localhost:3000'
             : 'https://wikirankingonline-production.up.railway.app';
 
-    // Birthyear 1950–2025
+    //birthyear 1950–2025
     const birthyearSelect = document.getElementById('birthyear');
     for (let year = 2025; year >= 1950; year--) {
         const option = document.createElement('option');
@@ -58,7 +58,7 @@
         birthyearSelect.appendChild(option);
     }
 
-    // Formular absenden
+    //Formular absenden
     document.getElementById('userForm').addEventListener('submit', (e) => 
     {
         e.preventDefault();

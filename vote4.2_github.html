@@ -89,7 +89,7 @@
             let person1Id = null;
             let person2Id = null;
 
-            // 1️⃣ Neue Personen laden
+            //neue Personen laden
             async function loadMatchup() {
                 const res = await fetch(`${API_BASE}/api/matchup`);
                 const data = await res.json();
@@ -123,7 +123,7 @@
                 document.getElementById('vote2').disabled = false;
             }
 
-            // 2️⃣ Vote speichern
+            //vote speichern
             async function sendVote(winnerPersonId) {
                 const sessionId = localStorage.getItem('session_id');
 
@@ -138,7 +138,7 @@
                 });
             }
 
-            // 3️⃣ Vote-Buttons
+            //vote-Buttons
             document.getElementById('vote1').addEventListener('click', async () => {
                 await sendVote(person1Id);
                 await loadMatchup();
@@ -149,13 +149,13 @@
                 await loadMatchup();
             });
 
-            // 4️⃣ Back-Button
+            //back-Button
             document.getElementById('backBtn').addEventListener('click', () => {
                 localStorage.removeItem('session_id');
                 window.location.href = 'index4.2_github.html';
             });
 
-            // 5️⃣ Erstes Matchup laden
+            //erstes Matchup laden
             loadMatchup();
 
         </script>
