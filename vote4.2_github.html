@@ -86,8 +86,6 @@
                     {
                         if (!dateString) return '-';
                         return dateString.split('T')[0];
-                        //const d = new Date(dateString);
-                        //return d.toLocaleDateString('de-DE');
                     }
 
             document.getElementById('vote1').disabled = true;
@@ -112,14 +110,12 @@
                 document.getElementById('img1').src = data.person1_image;
                 document.getElementById('desc1').textContent = data.person1_description;
                 document.getElementById('country1').textContent = data.person1_country ?? '-';
-
-                /*
+                /*alte Version ohne formatDate Funktion
                 document.getElementById('birth1').textContent = data.person1_birth ?? '-';
                 document.getElementById('death1').textContent = data.person1_death ?? '-';
                 */
                 document.getElementById('birth1').textContent = formatDate(data.person1_birth);
                 document.getElementById('death1').textContent = formatDate(data.person1_death);
-
                 document.getElementById('gender1').textContent = data.person1_gender ?? '-';
                 document.getElementById('article1').href = data.person1_article;
 
@@ -128,13 +124,12 @@
                 document.getElementById('img2').src = data.person2_image;
                 document.getElementById('desc2').textContent = data.person2_description;
                 document.getElementById('country2').textContent = data.person2_country ?? '-';
-                /*
+                /*alte Version ohne formatDate Funktion
                 document.getElementById('birth2').textContent = data.person2_birth ?? '-';
                 document.getElementById('death2').textContent = data.person2_death ?? '-';
                 */
                 document.getElementById('birth2').textContent = formatDate(data.person2_birth);
                 document.getElementById('death2').textContent = formatDate(data.person2_death);
-
                 document.getElementById('gender2').textContent = data.person2_gender ?? '-';
                 document.getElementById('article2').href = data.person2_article;
 
