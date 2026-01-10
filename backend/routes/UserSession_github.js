@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
         gender_fluid: 4
     };
 
-    // Country ID holen oder neu anlegen
+    //country ID holen oder neu anlegen
     let [rows] = await db.execute(
         'SELECT country_id FROM country WHERE country_name = ?',
         [country]

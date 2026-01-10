@@ -1,4 +1,4 @@
-//Speichert Vote und passt Rating an
+//speichert Vote und passt Rating an
 const express = require('express');
 const router = express.Router();
 const db = require('../db_github'); 

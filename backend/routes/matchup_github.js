@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
         res.json(rows[0]);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Failed to create matchup' });
+        res.status(500).json({ error: 'Failed to create matchup', details: err.message });
     }
 });
 
